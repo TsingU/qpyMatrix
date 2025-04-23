@@ -22,6 +22,159 @@ class Matrix:#矩阵对象(Matrix objects)
         else:
             print(self.matrix[i][j])
 
+class qProg:#量子线路
+    def __init__(self):#初始化量子线路
+        self.prog=[]
+    def add(self,qprog):#向线路中添加操作
+        self.prog.append(qprog)
+    def draw(self):#绘制线路图
+        for i in range(len(self.prog[0])):
+            s=""
+            for j in range(len(self.prog)):
+                s+="--\t"+self.prog[j][i]+"\t"
+            print("q"+str(i)+'\t'+s+"--")
+    def help(self):
+        print("\t量子线路门符号")
+        print("\t--------------------\t")
+        print("I:\t代表不操作")
+        print("X:\t代表X门")
+        print("Y:\t代表Y门")
+        print("Z:\t代表Z门")
+        print("H:\t代表H门")
+        print("S:\t代表S门")
+        print("T:\t代表qT门")
+        print("SWAP:\t代表SWAP门\t用法:add([\"SWAP\",\"SWAP\"])")
+        print("iSWAP:\t代表iSWAP门\t用法:add([\"iSWAP\",\"iSWAP\"])")
+        print("*,+:\t代表CNOT门\t用法:add([\"*\",\"+\"])")
+        print("+,*:\t代表CNOT_H门\t用法:add([\"+\",\"*\"])")
+        print("CZ:\t代表CZ门\t用法:add([\"CZ\",\"CZ\"])")
+        print("\tRX,RY,RZ门开发中")
+        print("\t--------------------\t")
+    def subMatrix(self):#计算线路的合并矩阵
+        result=diag(4,1)
+        for i in range(len(self.prog))[::-1]:
+            if self.prog[i]==["X","I"]:#X-I
+                result=multiply(result,kron(I,X))
+            elif self.prog[i]==["I","X"]:#I-X
+                result=multiply(result,kron(X,I))
+            elif self.prog[i]==["Y","I"]:#Y-I
+                result=multiply(result,kron(I,Y))
+            elif self.prog[i]==["I","Y"]:#I-Y
+                result=multiply(result,kron(Y,I))
+            elif self.prog[i]==["Z","I"]:#Z-I
+                result=multiply(result,kron(I,Z))
+            elif self.prog[i]==["I","Z"]:#I-Z
+                result=multiply(result,kron(Z,I))
+            elif self.prog[i]==["H","I"]:#H-I
+                result=multiply(result,kron(I,H))
+            elif self.prog[i]==["I","H"]:#I-H
+                result=multiply(result,kron(H,I))
+            elif self.prog[i]==["S","I"]:#S-I
+                result=multiply(result,kron(I,S))
+            elif self.prog[i]==["I","S"]:#I-S
+                result=multiply(result,kron(S,I))
+            elif self.prog[i]==["T","I"]:#T-I
+                result=multiply(result,kron(I,qT))
+            elif self.prog[i]==["I","T"]:#I-T
+                result=multiply(result,kron(qT,I))
+            elif self.prog[i]==["I","I"]:#I-I
+                result=multiply(result,kron(I,I))
+            elif self.prog[i]==["X","X"]:#X-X
+                result=multiply(result,kron(X,X))
+            elif self.prog[i]==["Y","Y"]:#Y-Y
+                result=multiply(result,kron(Y,Y))
+            elif self.prog[i]==["Z","Z"]:#Z-Z
+                result=multiply(result,kron(Z,Z))
+            elif self.prog[i]==["H","H"]:#H-H
+                result=multiply(result,kron(H,H))
+            elif self.prog[i]==["S","S"]:#S-S
+                result=multiply(result,kron(S,S))
+            elif self.prog[i]==["T","T"]:#T-T
+                result=multiply(result,kron(qT,qT))
+            elif self.prog[i]==["*","+"]:
+                result=multiply(result,CNOT)
+            elif self.prog[i]==["+","*"]:
+                result=multiply(result,CNOT_H)
+            elif self.prog[i]==["SWAP","SWAP"]:
+                result=multiply(result,SWAP)
+            elif self.prog[i]==["iSWAP","iSWAP"]:
+                result=multiply(result,iSWAP)
+            elif self.prog[i]==["CZ","CZ"]:
+                result=multiply(result,CZ)
+            ###
+            elif self.prog[i]==["X","Y"]:#X-Y
+                result=multiply(result,kron(Y,X))
+            elif self.prog[i]==["X","Z"]:#X-Z
+                result=multiply(result,kron(Z,X))
+            elif self.prog[i]==["X","H"]:#X-H
+                result=multiply(result,kron(H,X))
+            elif self.prog[i]==["X","S"]:#X-S
+                result=multiply(result,kron(S,X))
+            elif self.prog[i]==["X","T"]:#X-T
+                result=multiply(result,kron(qT,X))
+            ###
+            elif self.prog[i]==["Y","X"]:#Y-X
+                result=multiply(result,kron(X,Y))
+            elif self.prog[i]==["Y","Z"]:#Y-Z
+                result=multiply(result,kron(Z,Y))
+            elif self.prog[i]==["Y","H"]:#Y-H
+                result=multiply(result,kron(H,Y))
+            elif self.prog[i]==["Y","S"]:#Y-S
+                result=multiply(result,kron(S,Y))
+            elif self.prog[i]==["Y","T"]:#Y-T
+                result=multiply(result,kron(qT,Y))
+            ###
+            elif self.prog[i]==["Z","X"]:#Z-X
+                result=multiply(result,kron(X,Z))
+            elif self.prog[i]==["Z","Y"]:#Z-Y
+                result=multiply(result,kron(Y,Z))
+            elif self.prog[i]==["Z","H"]:#Z-H
+                result=multiply(result,kron(H,Z))
+            elif self.prog[i]==["Z","S"]:#Z-S
+                result=multiply(result,kron(S,Z))
+            elif self.prog[i]==["Z","T"]:#Z-T
+                result=multiply(result,kron(qT,Z))
+            ###
+            elif self.prog[i]==["H","X"]:#H-X
+                result=multiply(result,kron(X,H))
+            elif self.prog[i]==["H","Y"]:#H-Y
+                result=multiply(result,kron(Y,H))
+            elif self.prog[i]==["H","Z"]:#H-Z
+                result=multiply(result,kron(Z,H))
+            elif self.prog[i]==["H","S"]:#H-S
+                result=multiply(result,kron(S,H))
+            elif self.prog[i]==["H","T"]:#H-T
+                result=multiply(result,kron(qT,H))
+            ###
+            elif self.prog[i]==["S","X"]:#S-X
+                result=multiply(result,kron(X,S))
+            elif self.prog[i]==["S","Y"]:#S-Y
+                result=multiply(result,kron(Y,S))
+            elif self.prog[i]==["S","Z"]:#S-Z
+                result=multiply(result,kron(Z,S))
+            elif self.prog[i]==["S","H"]:#S-H
+                result=multiply(result,kron(H,S))
+            elif self.prog[i]==["S","T"]:#S-T
+                result=multiply(result,kron(qT,S))
+            ###
+            elif self.prog[i]==["T","X"]:#T-X
+                result=multiply(result,kron(X,T))
+            elif self.prog[i]==["T","Y"]:#T-Y
+                result=multiply(result,kron(Y,T))
+            elif self.prog[i]==["T","Z"]:#T-Z
+                result=multiply(result,kron(Z,T))
+            elif self.prog[i]==["T","H"]:#T-H
+                result=multiply(result,kron(H,T))
+            elif self.prog[i]==["T","S"]:#T-S
+                result=multiply(result,kron(S,qT))
+            ###
+                #RX,RY,RZ门开发中···#
+            ###
+        return result
+
+
+
+
 def plus(A,B):#矩阵加法(Matrix addition)
         if A.row!=B.row or A.col!=B.col:
             print("矩阵不符合矩阵加法法则")
@@ -83,6 +236,8 @@ def kron(A,B):#计算矩阵的张量积(Calculate the tensor product of the matr
     return result
 ########################################## begin 量子计算预设矩阵(Quantum computing preset matrices)
 
+I=diag(2,1)#单位矩阵
+
 X=Matrix(2,2)#泡利X门(Pauli X-Gate)
 X.matrix=[[0,1],[1,0]]
 
@@ -97,7 +252,7 @@ H=Matrix(2,2)#阿达玛门(Hadamard Gate)
 H.matrix=[[1/np.sqrt(2),1/np.sqrt(2)],[1/np.sqrt(2),-1/np.sqrt(2)]]
 
 S=Matrix(2,2)#S门/相位门(S-Gate/Phase Gate)
-S.matrix=[[0,1],[0,1j]]
+S.matrix=[[1,0],[0,1j]]
 
 qT=Matrix(2,2)#T门(T-Gate)
 qT.matrix=[[1,0],[0,(1+1j)/np.sqrt(2)]]

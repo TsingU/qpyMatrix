@@ -22,6 +22,8 @@ In this library, we import the numpy library by default and rename it np
 
 ### 1. 类 Class
 
+#### （1）矩阵类
+
 在这个库中，包含一个简单的矩阵类，结构如下：
 
 Included in this library is a simple matrix class with the following structure:
@@ -60,6 +62,45 @@ def element(self,i,j,p,rw=False)
 i是横坐标，j是纵坐标，p是要修改的值，rw是控制变量（默认为False）。如果rw为True，则对相应元素进行修改，否则仅打印相应元素。
 
 i is the horizontal coordinate, j is the vertical coordinate, p is the value to be modified, and rw is the control variable (default is False). If rw is True, the corresponding element is modified, otherwise only the corresponding element is printed.
+
+#### （2）量子程序类（2025-04-23更新）
+
+这个库中包含一个量子程序类qProg，结构如下：
+
+```context
+qProg:
+    prog:用于存放量子线路的列表
+```
+
+类中定义了以下函数：
+
+```python
+def __init__(self):#初始化量子线路
+def add(self,qprog):#向线路中添加操作
+def draw(self):#绘制线路图
+def help(self):#关于操作帮助
+def subMatrix(self):#计算线路的合并矩阵
+```
+
+##### ①初始化函数`__init__(self)`
+
+为对象初始化一个量子线路prog。
+
+##### ②函数`add(self,qprog)`
+
+向量子线路中添加一个操作qprog，这个操作的格式为`["op_1","op_2"]`。暂时只支持两个比特的操作
+
+##### ③函数`draw(self)`
+
+将量子线路绘制成图像，在终端上打印。
+
+##### ④函数`help(self)`
+
+向终端打印量子线路门对应的符号。
+
+##### ⑤函数`subMatrix(self)`
+
+计算量子线路的等价矩阵并返回。
 
 
 
@@ -170,18 +211,25 @@ Compute the tensor product of A and B and return.
 In the library, we define the matrix form of commonly used quantum gates, and their corresponding notation is as follows:
 
 ```context
+I:单位矩阵(2025-04-23更新)
 X:泡利X门(Pauli X-Gate)
 Y:泡利Y门(Pauli Y-Gate)
 Z:泡利Z门(Pauli Z-Gate)
 H:阿达玛门(Hadamard Gate)
 S:S门/相位门(S-Gate/Phase Gate)
 qT:T门(T-Gate)
-CNOT:CNOT门,低位比特为控制比特(CNOT gate, the low bit is the control bit)
-CNOT_H:CNOT门，高位比特为控制比特(CNOT gate, the high bit is the control bit)
-SWAP:SWAP门，交换两个比特的状态(SWAP gate, which swaps the state of two bits)
-iSWAP:SWAP门，增加一个相对相位，如果两个比特的状态不同，则相位发生变化(SWAP gate, adding a relative phase, if the state of the two bits is different, the phase changes)
+CNOT:CNOT门,低位比特为控制比特
+(CNOT gate, the low bit is the control bit)
+CNOT_H:CNOT门，高位比特为控制比特
+(CNOT gate, the high bit is the control bit)
+SWAP:SWAP门，交换两个比特的状态
+(SWAP gate, which swaps the state of two bits)
+iSWAP:SWAP门，增加一个相对相位，如果两个比特的状态不同，
+则相位发生变化(SWAP gate, adding a relative phase, 
+if the state of the two bits is different, the phase changes)
 CZ:控制Z门(Controlled Z-Gate)
-CCNOT:Toffoli门当两个高位控制比特均为1时翻转低位比特(Toffoli Gate, flips the low bit when both high control bits are 1)
+CCNOT:Toffoli门当两个高位控制比特均为1时翻转低位比特
+(Toffoli Gate, flips the low bit when both high control bits are 1)
 ```
 
 ### 4. 预设量子计算函数 Predefined quantum computing functions
@@ -281,3 +329,11 @@ Thank you so much for being able to use this library!
 当然，你也可以下载库的源文件，并对他进行完善，让这个库不断壮大！
 
 Of course, you can also download the source files of the library and refine him to keep the library growing!
+
+## 四、注 Note
+
+最后更新日期：2025-04-23
+
+Last Updated: 2025-04-23
+
+
