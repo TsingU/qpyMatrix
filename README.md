@@ -63,6 +63,33 @@ i是横坐标，j是纵坐标，p是要修改的值，rw是控制变量（默认
 
 i is the horizontal coordinate, j is the vertical coordinate, p is the value to be modified, and rw is the control variable (default is False). If rw is True, the corresponding element is modified, otherwise only the corresponding element is printed.
 
+
+
+##### 运算符重载（2025-04-24更新）
+
+在这个类中，我们重载了以下运算符：
+
+```python
++:  #将+重载为矩阵加法
+*:  #将*重载为矩阵乘法
+**: #将**重载为矩阵的张量积
+```
+
+类的定义如下：
+
+```python
+def __add__(self,other):#重载加法+为矩阵加法
+    return plus(self,other)
+def __mul__(self,other):#重载乘法*为矩阵乘法
+    return multiply(self,other)
+def __pow__(self,other):#重载**为张量积
+    return kron(self,other)
+```
+
+
+
+
+
 #### （2）量子程序类（2025-04-23更新）
 
 这个库中包含一个量子程序类qProg，结构如下：
@@ -204,6 +231,20 @@ def kron(A,B)
 
 Compute the tensor product of A and B and return.
 
+#### （8）矩阵的数乘 （2025-04-24更新）
+
+定义如下：
+
+```python
+def cmul(c,A)
+```
+
+将矩阵A的每一个元素乘以c并返回
+
+
+
+
+
 ### 3. 预设量子门矩阵 Preset quantum gate matrix
 
 在库里，我们定义了常用的量子门的矩阵形式，他们对应的符号如下：
@@ -335,5 +376,3 @@ Of course, you can also download the source files of the library and refine him 
 最后更新日期：2025-04-23
 
 Last Updated: 2025-04-23
-
-

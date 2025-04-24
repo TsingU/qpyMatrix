@@ -9,6 +9,14 @@ class Matrix:#矩阵对象(Matrix objects)
             for j in range(n):
                 tmp.append(p)
             self.matrix.append(tmp)
+    #运算符重载(2025-04-24更新)
+    def __add__(self,other):#重载加法+为矩阵加法
+        return plus(self,other)
+    def __mul__(self,other):#重载乘法*为矩阵乘法
+        return multiply(self,other)
+    def __pow__(self,other):#重载**为张量积
+        return kron(self,other)
+    
     def show(self):#打印矩阵(Print the matrix)
         print()
         for i in range(self.row):
@@ -184,6 +192,13 @@ def plus(A,B):#矩阵加法(Matrix addition)
                     A.matrix[i][j]=A.matrix[i][j]+B.matrix[i][j]
         return A
 
+def cmul(c,A):#矩阵数乘(2025-04-24更新)
+    result=Matrix(A.row,A.col)
+    for i in range(A.row):
+        for j in range(A.col):
+            result.matrix[i][j]=A.matrix[i][j]*c
+    return result
+
 def multiply(A,B):#矩阵乘法(Matrix multiplication)
     if A.col!=B.row:
         print("矩阵不符合矩阵乘法法则")
@@ -228,11 +243,11 @@ def kron(A,B):#计算矩阵的张量积(Calculate the tensor product of the matr
     result=Matrix(A.row*B.row,A.col*B.col)
     for i in range(A.row):
         for j in range(A.col):
-            a_ij=diag(B.row,A.matrix[i][j])
-            s=multiply(a_ij,B)
+            a_ij=A.matrix[i][j]
+            s=cmul(a_ij,B)
             for m in range(B.row):
                 for n in range(B.col):
-                    result.matrix[m+(i-1)*B.row][n+(j-1)*B.col]=s.matrix[m][n]
+                    result.matrix[m+(i)*B.row][n+(j)*B.col]=s.matrix[m][n]
     return result
 ########################################## begin 量子计算预设矩阵(Quantum computing preset matrices)
 
