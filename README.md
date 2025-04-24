@@ -75,7 +75,7 @@ i is the horizontal coordinate, j is the vertical coordinate, p is the value to 
 **: #将**重载为矩阵的张量积
 ```
 
-类的定义如下：
+运算符的定义如下：
 
 ```python
 def __add__(self,other):#重载加法+为矩阵加法
@@ -359,7 +359,40 @@ def measure_p(m,qubit)
 
 The probability of a measurement qubit for a measurement base m.
 
-## 三、结语 Concluding remarks
+#### （7）计算单量子比特在布洛赫球上的z坐标(2025-04-24更新)
+
+定义如下：
+
+```python
+def bloch(v)
+```
+
+计算z坐标并返回
+
+### 三、预设基向量及其矩阵
+
+(2025-04-24更新)
+
+我们定义了常用的基向量及其测量矩阵，定义如下：
+
+```python
+v_zero=Matrix(2,1)#基态|0>
+v_one=Matrix(2,1)#基态|1>
+v_currect=Matrix(2,1)#基态|+>
+v_minus=Matrix(2,1)#基态|->
+v_i=Matrix(2,1)#基态|i>
+v_minus_i=Matrix(2,1)#基态|-i>
+M_0=v_zero*CT(v_zero)#|0>的测量基矩阵
+M_1=v_one*CT(v_one)#|1>的测量基矩阵
+M_current=v_currect*CT(v_currect)#|+>的测量基矩阵
+M_minus=v_minus*CT(v_minus)#|->的测量基矩阵
+M_i=v_i*CT(v_i)#|i>的测量基矩阵
+M_minus_i=v_minus_i*CT(v_minus_i)#|-i>的测量基矩阵
+```
+
+
+
+## 四、结语 Concluding remarks
 
 非常感谢你能够使用这个库！
 
@@ -371,8 +404,10 @@ Thank you so much for being able to use this library!
 
 Of course, you can also download the source files of the library and refine him to keep the library growing!
 
-## 四、注 Note
+## 五、注 Note
 
-最后更新日期：2025-04-23
+最后更新日期：2025-04-24
 
-Last Updated: 2025-04-23
+Last Updated: 2025-04-24
+
+

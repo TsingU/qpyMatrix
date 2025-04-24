@@ -324,6 +324,41 @@ def measure_p(m,qubit):#测量量子比特qubit在测量基m上的概率(Measure
     M=Measure(m)
     s=multiply(CT(qubit),M)
     result=multiply(s,qubit)
-    result.show()
+    return result.matrix[0][0]
+
+def bloch(v):#返回一个量子比特在布洛赫球上的z坐标(2025-04-24更新)
+    s=measure_p(v,v_zero)
+    z=2*s-1
+    return z
+
 
 ########################################## end 量子计算预设函数(Quantum computing preset functions)
+#----------------------------------------#
+########################################## begin 量子计算预设基向量与测量基(2025-04-24更新)
+
+v_zero=Matrix(2,1)#基态|0>
+v_zero.matrix=[[1],[0]]
+
+v_one=Matrix(2,1)#基态|1>
+v_one.matrix=[[0],[1]]
+
+v_currect=Matrix(2,1)#基态|+>
+v_currect.matrix=[[1/np.sqrt(2)],[1/np.sqrt(2)]]
+
+v_minus=Matrix(2,1)#基态|->
+v_minus.matrix=[[1/np.sqrt(2)],[-1/np.sqrt(2)]]
+
+v_i=Matrix(2,1)#基态|i>
+v_i.matrix=[[1/np.sqrt(2)],[1j/np.sqrt(2)]]
+
+v_minus_i=Matrix(2,1)#基态|-i>
+v_minus_i.matrix=[[1/np.sqrt(2)],[-1j/np.sqrt(2)]]
+
+M_0=v_zero*CT(v_zero)#|0>的测量基矩阵
+M_1=v_one*CT(v_one)#|1>的测量基矩阵
+M_current=v_currect*CT(v_currect)#|+>的测量基矩阵
+M_minus=v_minus*CT(v_minus)#|->的测量基矩阵
+M_i=v_i*CT(v_i)#|i>的测量基矩阵
+M_minus_i=v_minus_i*CT(v_minus_i)#|-i>的测量基矩阵
+
+########################################## end 量子计算预设基向量与测量基(2025-04-24更新)
